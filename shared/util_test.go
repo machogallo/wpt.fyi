@@ -9,6 +9,7 @@ package shared
 import (
 	"testing"
 
+	mapset "github.com/deckarep/golang-set"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -89,4 +90,9 @@ func TestGetSharedPath(t *testing.T) {
 	assert.Equal(t, "/a/b/", GetSharedPath("/a/b/c.html", "/a/b/d.html"))
 	assert.Equal(t, "/", GetSharedPath("/a/b/c.html", "/d/e/f.html"))
 	assert.Equal(t, "/a/", GetSharedPath("/a/z.html", "/a/b/x.html", "/a/b/y.html"))
+}
+
+func TestNewSetFromStringSlice(t *testing.T) {
+	assert.NotNil(t, NewSetFromStringSlice(nil))
+	assert.True(t, NewSetFromStringSlice([]string{"a", "b", "b"}).Equal(mapset.NewSetWith("a", "b")))
 }
