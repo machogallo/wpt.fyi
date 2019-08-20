@@ -27,6 +27,9 @@ const statuses = [
 
 const atoms = {
   status: statuses,
+  subtest: [],
+  path: [],
+  link: [],
 };
 
 for (const b of DefaultBrowserNames) {

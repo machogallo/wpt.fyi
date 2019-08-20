@@ -8,6 +8,21 @@ As outlined below, the `/api/search` endpoint takes a structured query object. w
 UI contains a search-box that converts a search syntax into the required structured query.
 Listed below are the "atoms" that can be used in a search.
 
+### Test name
+
+The default search atom type is a test name pattern. This pattern filters
+results to those that have a test name containing the test name pattern substring.
+
+#### Path prefix
+
+To match an exact path prefix, use the `path:[test path]` atom instead of the
+default substring test name match above.
+
+#### Subtest name
+
+To match a substring pattern with subtest names (the names of individual tests
+ within a test file) use the `subtest:[subtest name]` atom.
+
 ### Status
 
 Filters to results with a specific status (or, _not_ a specific status).
@@ -119,6 +134,19 @@ of the queries must be satisfied by the runs, in order.
 
     {"or": [query1, query2, ...]}
 
+#### pattern
+
+Pattern is the default query atom type, when no prefix
+is used. Takes the substring of a test name to match.
+
+    {"pattern": "[test name substring]"}
+
+#### subtest
+
+Takes a substring of the subtest name to match.
+
+    {"subtest": "[subtest name substring]"}
+
 #### status
 
 Takes a string of the status to match.
@@ -145,13 +173,13 @@ Same as satuts, but with a specific product-spec.
 `link` query atoms perform a search for tests that have some matching link metadata.
 
     {"link": pattern}
- 
+
  E.g.
 
-Search untriaged issues - 
+Search untriaged issues -
 
     chrome:fail and !link:bugs.chromium.org
 
-Search triaged issues - 
+Search triaged issues -
 
     chrome:pass and link:bugs.chromium.org
