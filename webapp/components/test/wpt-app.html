@@ -19,7 +19,25 @@ import '../../views/wpt-app.js';
 import { TEST_RUNS_DATA } from './util/helpers.js';
 
 suite('<wpt-app>', () => {
-  let appFixture = null;
+  let appFixture, sandbox;
+
+  suiteSetup(() => {
+    sandbox = sinon.sandbox.create();
+    // Spoof an empty result for APIs to speed up tests.
+    // This is done in suiteSetup/suiteTeardown to avoid async fetches slipping
+    // through between tests.
+    const ignore = new RegExp('/api/(shas|versions|interop)');
+    sandbox.stub(window, 'fetch', url => {
+      if (ignore.test(url.pathname)) {
+        return Promise.resolve(new Response('[]'));
+      }
+      throw url.pathname;
+    });
+  });
+
+  suiteTeardown(() => {
+    sandbox.restore();
+  });
 
   setup(() => {
     appFixture = fixture('wpt-app-fixture');
