@@ -16,6 +16,8 @@
       }
     }
   },
+  "npm": true,
+  "compile": "never",
   "verbose": true,
   "testTimeout": 300000,
   "expanded": true
